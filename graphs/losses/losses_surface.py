@@ -212,7 +212,7 @@ def one_hot2dist(seg: np.ndarray, resolution: Tuple[float, float, float] = None,
 
     res = np.zeros_like(seg, dtype=dtype)
     for k in range(K):
-        posmask = seg[k].astype(np.bool)
+        posmask = seg[k].astype(bool)
 
         if posmask.any():
             negmask = ~posmask
@@ -237,7 +237,7 @@ def one_hot2hd_dist(seg: np.ndarray, resolution: Tuple[float, float, float] = No
 
     res = np.zeros_like(seg, dtype=dtype)
     for k in range(K):
-        posmask = seg[k].astype(np.bool)
+        posmask = seg[k].astype(bool)
 
         if posmask.any():
             res[k] = eucl_distance(posmask, sampling=resolution)

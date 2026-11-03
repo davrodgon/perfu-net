@@ -1,5 +1,5 @@
 import math
-from scipy.ndimage.morphology import distance_transform_edt
+from scipy.ndimage import distance_transform_edt
 import numpy as np
 import torch
 import random
@@ -71,7 +71,7 @@ def weight_map(labels, w0=0.5, sigma=50):
 
     no_labels = labels == 0
     distances = np.zeros((labels.shape[0], labels.shape[1], 1))
-    distances[:, :, 0] = distance_transform_edt(labels.cpu() != 1)
+    distances[:, :, 0] = distance_transform_edt(labels.detach().cpu().numpy() != 1)
     distances = np.sort(distances, axis=2)
     d1 = distances[:, :, 0]
 

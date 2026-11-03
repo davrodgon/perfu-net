@@ -50,10 +50,10 @@ class AgentTestSet:
 
     def load_checkpoint(self):
         filename = self.model_path
-        filepath = r"test_models\{}\model_best_full_scan_inference.pth.tar".format(filename)
+        filepath = os.path.join("test_models", str(filename), "model_best_full_scan_inference.pth.tar")
         try:
-            self.logger.info("Loading checkpoint '{}'".format(filename))
-            checkpoint = torch.load(filepath, map_location='cuda:0')
+            self.logger.info("Loading checkpoint '{}'".format(filepath))
+            checkpoint = torch.load(filepath, map_location=self.device)
             # for ix, param in enumerate(self.model.parameters()):
             #     if ix == 0:
             #         print(param)
@@ -62,8 +62,8 @@ class AgentTestSet:
             #     if ix == 0:
             #         print(param)
         except OSError:
-            self.logger.info("No checkpoint exists from '{}'. Skipping...".format(self.config.checkpoint_dir))
-            self.logger.info("**First time to train**")
+            self.logger.error("Could not load checkpoint '{}'".format(filepath))
+            raise
 
     def run(self):
         """

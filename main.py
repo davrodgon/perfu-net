@@ -9,6 +9,7 @@ Main
 """
 
 import argparse
+import os
 from utils.config import process_config
 from utils.train_utils import set_seed
 import wandb

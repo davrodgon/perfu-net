@@ -65,13 +65,13 @@ def getScoreDataframe(masks, output, mask_files_complete, metric='dice', thresho
             elif metric == 'abs_volume':
                 score = np.abs(((np.sum(segmentation) - np.sum(mask_3d)) * sx * sy * sz) / 1000)
             elif metric == 'surface_dice':
-                distances = metrics.compute_surface_distances(mask_3d.astype(np.bool), segmentation.astype(np.bool), [sz, sx, sy])
+                distances = metrics.compute_surface_distances(mask_3d.astype(bool), segmentation.astype(bool), [sz, sx, sy])
                 score = metrics.compute_surface_dice_at_tolerance(distances, tolerance_mm=2)
             elif metric == 'hd95':
-                distances = metrics.compute_surface_distances(mask_3d.astype(np.bool), segmentation.astype(np.bool), [sz, sx, sy])
+                distances = metrics.compute_surface_distances(mask_3d.astype(bool), segmentation.astype(bool), [sz, sx, sy])
                 score = metrics.compute_robust_hausdorff(distances, percent=95)
             elif metric == 'hd100':
-                distances = metrics.compute_surface_distances(mask_3d.astype(np.bool), segmentation.astype(np.bool), [sz, sx, sy])
+                distances = metrics.compute_surface_distances(mask_3d.astype(bool), segmentation.astype(bool), [sz, sx, sy])
                 score = metrics.compute_robust_hausdorff(distances, percent=100)
             else:
                 raise Exception('Please provide correct metric')
@@ -97,13 +97,13 @@ def getScoreDataframe(masks, output, mask_files_complete, metric='dice', thresho
                 elif metric == 'abs_volume':
                     score = np.abs(((np.sum(segmentation) - np.sum(mask_3d)) * sx * sy * sz) / 1000)
                 elif metric == 'surface_dice':
-                    distances = metrics.compute_surface_distances(mask_3d.astype(np.bool), segmentation.astype(np.bool), [sz, sx, sy])
+                    distances = metrics.compute_surface_distances(mask_3d.astype(bool), segmentation.astype(bool), [sz, sx, sy])
                     score = metrics.compute_surface_dice_at_tolerance(distances, tolerance_mm=2)
                 elif metric == 'hd95':
-                    distances = metrics.compute_surface_distances(mask_3d.astype(np.bool), segmentation.astype(np.bool), [sz, sx, sy])
+                    distances = metrics.compute_surface_distances(mask_3d.astype(bool), segmentation.astype(bool), [sz, sx, sy])
                     score = metrics.compute_robust_hausdorff(distances, percent=95)
                 elif metric == 'hd100':
-                    distances = metrics.compute_surface_distances(mask_3d.astype(np.bool), segmentation.astype(np.bool), [sz, sx, sy])
+                    distances = metrics.compute_surface_distances(mask_3d.astype(bool), segmentation.astype(bool), [sz, sx, sy])
                     score = metrics.compute_robust_hausdorff(distances, percent=100)
                 else:
                     raise Exception('Please provide correct metric')

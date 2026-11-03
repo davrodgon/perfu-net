@@ -26,11 +26,12 @@ class ShiftScaleRotate(object):
                                             p=self.probability)
     def __call__(self, sample):
         image, mask = sample['ctp'], sample['mask']
+        c = image.shape[3]
         image = rearrange(image, 'h w t c -> h w (c t)')
         transformed = self.transform(image=image, mask=mask)
         transformed_image = transformed['image']
         transformed_mask = transformed['mask']
-        transformed_image = rearrange(transformed_image, 'h w (c t) -> h w t c', c=2)
+        transformed_image = rearrange(transformed_image, 'h w (c t) -> h w t c', c=c)
         return {'ctp': transformed_image.copy(), 'mask': transformed_mask.copy()}
 
 class RotateAngleA(object):
