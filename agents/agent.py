@@ -16,7 +16,7 @@ from graphs.models.RBNet import RBNet
 from utils.metrics import DiceMetric
 from utils.train_utils import adjust_learning_rate, adjust_alpha
 
-from torchsummary import summary
+from torchinfo import summary
 from datasets.dataloader import CTPDataLoader
 from utils.metrics import AverageMeter
 from utils.valid_utils import SaveProbMap, getMetrics
@@ -56,9 +56,9 @@ class Agent:
             self.model = RBNet(self.config)
 
         if self.config.input_channels == 2:
-            print(summary(self.model, input_size=(2, 16, 256, 256), device='cpu'))
+            print(summary(self.model, input_size=(1, 2, 16, 256, 256), device='cpu'))
         else:
-            print(summary(self.model, input_size=(1, 16, 256, 256), device='cpu'))
+            print(summary(self.model, input_size=(1, 1, 16, 256, 256), device='cpu'))
 
         self.model = self.model.float().to(self.device)
 
@@ -135,7 +135,7 @@ class Agent:
         filename = self.config.checkpoint_dir + filename
         try:
             self.logger.info("Loading checkpoint '{}'".format(filename))
-            checkpoint = torch.load(filename)
+            checkpoint = torch.load(filename, weights_only=True)
 
             self.current_epoch = checkpoint['epoch']
             self.current_iteration = checkpoint['iteration']

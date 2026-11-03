@@ -15,7 +15,7 @@ from utils.metrics import DiceMetric
 from utils.train_utils import adjust_learning_rate, adjust_alpha
 from torch.optim.lr_scheduler import StepLR
 
-from torchsummary import summary
+from torchinfo import summary
 from datasets.dataloader_perfusionmaps import PerfusionDataLoader
 import matplotlib.pyplot as plt
 from utils.metrics import AverageMeter
@@ -50,7 +50,7 @@ class AgentPerfusion:
         if self.config.modelname == 'MapsNet':
             self.model = MapsNet(self.config)
 
-        print(summary(self.model, input_size=(self.config.input_channels*5, 256, 256), device='cpu'))
+        print(summary(self.model, input_size=(1, self.config.input_channels*5, 256, 256), device='cpu'))
 
         self.model = self.model.float().to(self.device)
 
@@ -131,7 +131,7 @@ class AgentPerfusion:
         filename = self.config.checkpoint_dir + filename
         try:
             self.logger.info("Loading checkpoint '{}'".format(filename))
-            checkpoint = torch.load(filename)
+            checkpoint = torch.load(filename, weights_only=True)
 
             self.current_epoch = checkpoint['epoch']
             self.current_iteration = checkpoint['iteration']

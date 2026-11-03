@@ -7,7 +7,7 @@ import torch
 import logging
 from einops import rearrange
 from graphs.models.PerfUNet import PerfUNet
-from torchsummary import summary
+from torchinfo import summary
 from datasets.dataloader_testset import CTPDataLoader
 from utils.valid_utils import SaveProbMap
 import time
@@ -38,9 +38,9 @@ class AgentTestSet:
             self.model = PerfUNet(self.config)
 
         if self.config.input_channels == 2:
-            print(summary(self.model, input_size=(2, 16, 256, 256), device='cpu'))
+            print(summary(self.model, input_size=(1, 2, 16, 256, 256), device='cpu'))
         else:
-            print(summary(self.model, input_size=(1, 16, 256, 256), device='cpu'))
+            print(summary(self.model, input_size=(1, 1, 16, 256, 256), device='cpu'))
 
         self.model = self.model.float().to(self.device)
         self.model_path = self.config.model_path
@@ -53,7 +53,7 @@ class AgentTestSet:
         filepath = os.path.join("test_models", str(filename), "model_best_full_scan_inference.pth.tar")
         try:
             self.logger.info("Loading checkpoint '{}'".format(filepath))
-            checkpoint = torch.load(filepath, map_location=self.device)
+            checkpoint = torch.load(filepath, map_location=self.device, weights_only=True)
             # for ix, param in enumerate(self.model.parameters()):
             #     if ix == 0:
             #         print(param)
