@@ -75,7 +75,7 @@ def weight_map(labels, w0=0.5, sigma=50):
     distances = np.sort(distances, axis=2)
     d1 = distances[:, :, 0]
 
-    w = torch.Tensor((w0 + np.exp(-(d1) / sigma) / (np.exp(-((d1) / sigma)) + 1))).to(torch.device("cuda:0")) * no_labels + labels
+    w = torch.Tensor((w0 + np.exp(-(d1) / sigma) / (np.exp(-((d1) / sigma)) + 1))).to(labels.device) * no_labels + labels
     return w
 
 
